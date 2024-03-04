@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  db:
+    container_name: postgres
+    image: postgres:15.5
+    environment:
+      POSTGRES_USER: somu
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data  # Corrected path
+    volumes:
+      - ./data:/var/lib/postgresql/data  # Use a relative path
+    ports:
+      - "5332:5432"
