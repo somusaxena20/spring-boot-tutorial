@@ -20,11 +20,11 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @Bean
-    CommandLineRunner runner(CustomerRepo repo){
-        return args -> {
-            repo.saveAll(List.of(new Customer("Alex", "alex@gmail.com", 20), new Customer("Godless", "godless@gmail.com", 19)));
-        };
-    }
+//    @Bean
+//    CommandLineRunner runner(CustomerRepo repo){
+//        return args -> {
+//            repo.saveAll(List.of(new Customer("Alex", "alex@gmail.com", 20), new Customer("Godless", "godless@gmail.com", 19)));
+//        };
+//    }
 
 }
