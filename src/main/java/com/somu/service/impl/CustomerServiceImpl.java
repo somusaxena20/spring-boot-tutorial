@@ -3,21 +3,22 @@ package com.somu.service.impl;
 import com.somu.repo.CustomerRepo;
 import com.somu.model.Customer;
 import com.somu.service.CustomerService;
-import com.somu.utils.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 
-@Service
+@Service("jpa")
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepo customerRepo;
+
+    public CustomerServiceImpl(CustomerRepo customerRepo) {
+        this.customerRepo = customerRepo;
+    }
 
     @Override
     public List<Customer> getAllCustomer() {
@@ -72,5 +73,21 @@ public class CustomerServiceImpl implements CustomerService {
             return null;
         }
         return null;
+    }
+
+    @Override
+    public void saveAll(List<Customer> customerList) {
+        try{
+            customerRepo.saveAll(customerList);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean existsCustomerWithEmail(String email) {
+        return customerRepo.existsCustomerByEmail(email);
     }
 }
