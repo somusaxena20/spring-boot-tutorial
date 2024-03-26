@@ -11,4 +11,6 @@ public interface CustomerService {
     Customer createCustomer(Customer customer);
     boolean deleteCustomer(Integer id);
     Customer updateCustomer(Integer id, Customer customer);
+    void saveAll(List<Customer> customerList);
+    boolean existsCustomerWithEmail(String email);
 }
