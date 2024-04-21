@@ -9,12 +9,17 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.somu</groupId>
-    <artifactId>spring-boot-amigoes</artifactId>
+    <artifactId>somu-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-amigoes</name>
     <description>spring-boot-amigoes</description>
+
     <properties>
         <java.version>17</java.version>
+        <docker.username>somusaxena20</docker.username>
+        <docker.image.name>somu-api</docker.image.name>
+<!--        <docker.image.tag>latest</docker.image.tag>-->
+<!--        <docker.image.tag/>-->
     </properties>
     <dependencies>
         <dependency>
@@ -102,6 +107,119 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>--server.port=${tomcat.http.port}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+<!--            for excluding integration & only take unit test-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    <includes>
+                        <include>**/*IntegrationTest.java</include>
+                        <include>**/*ITest.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <test.server.port>${tomcat.http.port}</test.server.port>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-tomcat-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>tomcat.http.port</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:17-jdk-jammy</image>
+                        <platforms>
+                            <platform>
+                                <architecture>
+                                    arm64
+                                </architecture>
+                                <os>linux</os>
+                            </platform>
+                            <platform>
+                                <architecture>
+                                    amd64
+                                </architecture>
+                                <os>linux</os>
+                            </platform>
+                        </platforms>
+                    </from>
+                    <to>
+                        <image>registry.hub.docker.com/${docker.username}/${docker.image.name}:${project.version}</image>
+                        <tags>
+                            <tag>
+                                latest
+                            </tag>
+                        </tags>
+                    </to>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.somu.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
