@@ -1,5 +1,4 @@
 server:
-  port: 1000
   error:
     include-message: always
 spring:
