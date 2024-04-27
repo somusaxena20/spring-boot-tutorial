@@ -1,6 +1,9 @@
 server:
   error:
     include-message: always
+  servlet:
+    context-path: /API_SERVER
+  port: 1000
 spring:
   profiles:
     active: uat
@@ -15,3 +18,13 @@ spring:
 #      hibernate:
 #        format_sql: true
 #    show-sql: true
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui.html
+springdoc:
+  swagger-ui:
+    path: /somu-documentation
+    try-it-out-enabled: true
+    filter: true
+  api-docs:
+    path: /somu-api-docs
