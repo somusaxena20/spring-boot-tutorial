@@ -1,23 +1,17 @@
 package com.somu;
 
-import com.github.javafaker.Faker;
-import com.github.javafaker.Name;
-import com.somu.model.Customer;
-import com.somu.repo.CustomerRepo;
-import org.springframework.boot.CommandLineRunner;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
-import java.util.Random;
 
 @EnableScheduling
 @SpringBootApplication //single annotation for below three
 //@Configuration
 //@ComponentScan
 //@EnableAutoConfiguration
+@OpenAPIDefinition(info = @Info(title = "Somu Api Integration", version = "1.0", description = ""))
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world...");

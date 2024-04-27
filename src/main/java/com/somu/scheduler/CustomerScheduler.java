@@ -21,7 +21,7 @@ public class CustomerScheduler {
     @Qualifier("jdbc")
     private CustomerService customerRepo;
 
-    @Scheduled(initialDelay = 10, fixedDelay = 1000)
+//    @Scheduled(initialDelay = 10, fixedDelay = 1000)
     public void startScheduled(){
         System.out.println("Start Scheduled Customer...");
         Faker faker = new Faker();
